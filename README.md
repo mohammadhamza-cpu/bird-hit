@@ -2,7 +2,7 @@
 
 A complete, lightweight bird-shooting arcade game made with HTML, CSS, vanilla JavaScript, Canvas 2D, and Web Audio. No build tools, dependencies, backend, external assets, or API keys are needed to play.
 
-GitHub Pages address (available once deployment succeeds): https://mohammadhamza-cpu.github.io/bird-hit/
+**[Play Skyshot on GitHub Pages](https://mohammadhamza-cpu.github.io/bird-hit/)**
 
 ## Play locally
 
@@ -43,7 +43,7 @@ Teal birds score 100 points, coral birds 150, and small golden birds 250. Consec
 
 After the A/D movement update, **45/45 engine tests** passed in JavaScriptCore and Chrome, and **84/84 Chrome browser checks** passed. The run covered aiming, horizontal movement, shooting while moving, recoil, hits, scoring, ammunition, reloads, timer, pause/resume, restart, touch controls, responsive layout, audio state, cleanup, and duplicate-loop prevention. No page JavaScript exceptions or console errors were observed; the local game/test pages made zero HTTP/HTTPS requests.
 
-An earlier full 90-second live round completed with 97 moving-bird hits from 114 actual mouse shots. Audio was verified programmatically, not by listening. Safari/Firefox UI and physical mobile devices were not tested. These are local test results, not a claim about an unverified hosted deployment.
+An earlier full 90-second live round completed with 97 moving-bird hits from 114 actual mouse shots. Audio was verified programmatically, not by listening. Safari/Firefox UI and physical mobile devices were not tested. The counts above describe local regression testing.
 
 To rerun, open [tests/index.html](tests/index.html), or run:
 
@@ -56,6 +56,6 @@ The Python harnesses require installed Chrome/Chromium, but no Python packages. 
 
 ## GitHub Pages
 
-Publish the default `main` branch from the repository root (`/`) in Settings → Pages. The empty `.nojekyll` file disables Jekyll processing. All game asset URLs are relative, so the repository subpath works without modification.
+GitHub Pages publishes the default `main` branch from the repository root (`/`). The empty `.nojekyll` file disables Jekyll processing. All game asset URLs are relative, so the repository subpath works without modification. Future commits to `main` automatically update the site.
 
 No credentials are needed by the deployed game. Keep personal tokens and local environment files out of this repository.
