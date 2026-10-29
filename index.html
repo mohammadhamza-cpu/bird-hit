@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#142d2c">
+  <meta name="description" content="Skyshot: a colorful, offline bird-shooting arcade game. Aim, fire, and chase your high score in a 90-second round.">
+  <title>Skyshot — The Great Outdoors Arcade</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23142d2c'/%3E%3Cpath d='M12 30q13-14 20 0 7-14 20 0-13-5-20 11-7-16-20-11' fill='%23f5c66a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="engine.js"></script>
+  <script defer src="audio.js"></script>
+  <script defer src="renderer.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <!-- Offline-first, dependency-free arcade. Engine, art, sound, and input stay separate. -->
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Skyshot home"><span class="brand-mark" aria-hidden="true">↗</span><span>SKYSHOT<span class="brand-sub">THE GREAT OUTDOORS ARCADE</span></span></a>
+      <div class="header-right"><span class="edition">FIELD NOTES / NO. 001</span><button id="sound-button" class="icon-button" aria-label="Unmute sound" aria-pressed="false" title="Toggle sound (M)"><span id="sound-icon" aria-hidden="true">♪</span><span id="sound-label">SOUND OFF</span></button></div>
+    </header>
+    <main>
+      <section class="game-heading" aria-label="Game information"><div><span class="eyebrow"><i></i> THE MEADOW</span><h1>A little aim. A lot of sky.</h1></div><p>90 seconds. Six shots. Make them count.</p></section>
+      <section id="arena" class="arena" aria-label="Skyshot shooting range">
+        <canvas id="game" tabindex="0" aria-label="Bird shooting game. Mouse: aim and click to shoot. Touch: tap birds. Keyboard: A moves the gun left, D moves it right, arrows aim, Space fires, R reloads, P or Escape pauses."></canvas>
+        <div class="hud" id="hud">
+          <div class="score-panel"><span class="hud-label">SCORE</span><strong id="score">0000</strong><span id="combo" class="combo">LET'S FLY</span></div>
+          <div class="timer-panel"><span class="hud-label">TIME LEFT</span><strong id="timer">1:30</strong><div class="timer-track"><i id="timer-fill"></i></div></div>
+          <div class="hud-right"><div class="best-panel"><span class="hud-label">PERSONAL BEST</span><strong id="best">0000</strong></div><button id="pause-button" class="pause-button" aria-label="Pause game" title="Pause (P / Esc)" disabled>Ⅱ</button></div>
+        </div>
+        <div class="range-badge" id="range-badge"><span class="status-dot"></span><span id="level-label">ROUND 01 · EASY BREEZE</span></div>
+        <div class="bottom-hud"><div class="ammo-panel"><span class="hud-label">AMMUNITION <span id="ammo-number">6 / 6</span></span><div class="ammo-row"><div id="ammo-pips" class="ammo-pips" aria-hidden="true"></div><button id="reload-button" class="reload-button" disabled><span id="reload-label">RELOAD</span><kbd>R</kbd><i id="reload-fill"></i></button></div><span id="ammo-hint">Six in the chamber. Sky's the limit.</span></div><span class="range-sign">EST. 2026 <span>✦</span> OPEN SKIES CLUB</span></div>
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+        <div id="overlay" class="overlay">
+          <section id="start-screen" class="screen start-screen" aria-labelledby="start-title">
+            <div class="card-emblem" aria-hidden="true"><svg viewBox="0 0 100 60"><path d="M9 26Q31 4 49 31Q66 2 91 21Q68 17 53 47Q35 25 9 26Z" fill="currentColor"/><path d="M50 30L69 24L57 37" fill="#efae46"/></svg></div>
+            <span class="eyebrow">WELCOME TO THE MEADOW</span><h2 id="start-title">Ready, aim,<br><em>sky high.</em></h2><p>A fresh breeze. A moving target.<br>Your next high score is up in the air.</p>
+            <div class="briefing"><span><b>90</b>SECONDS</span><span><b>6</b>SHOTS / RELOAD</span><span><b>∞</b>FRESH AMMO</span></div>
+            <button id="start-button" class="primary-button">LET'S FLY <span aria-hidden="true">↗</span></button><span class="start-hint">CLICK TO SHOOT · TAP TO PLAY · R TO RELOAD</span>
+          </section>
+          <section id="pause-screen" class="screen" aria-labelledby="pause-title" hidden><span class="eyebrow">TAKE A BREATHER</span><h2 id="pause-title">Just <em>winging it.</em></h2><p>The meadow can wait. Your timer is paused.</p><button id="resume-button" class="primary-button">BACK TO THE SKY <span aria-hidden="true">↗</span></button><button id="pause-restart-button" class="text-button">Start a fresh round</button></section>
+          <section id="end-screen" class="screen" aria-labelledby="end-title" hidden><span class="eyebrow" id="end-eyebrow">THAT'S A WRAP</span><h2 id="end-title">Nice <em>shooting.</em></h2><div class="final-score" id="final-score">0</div><span class="hud-label">POINTS IN THE BAG</span><div class="results"><span><b id="final-hits">0</b>BIRDS HIT</span><span><b id="final-accuracy">0%</b>ACCURACY</span><span><b id="final-combo">0×</b>BEST STREAK</span></div><p id="end-message">A good day under open skies.</p><button id="restart-button" class="primary-button">ONE MORE ROUND <span aria-hidden="true">↗</span></button></section>
+        </div>
+      </section>
+      <footer class="game-footer"><div class="controls"><span><kbd>↖</kbd> AIM & CLICK</span><span><kbd>A / D</kbd> MOVE GUN</span><span><kbd>R</kbd> RELOAD</span><span><kbd>P</kbd> PAUSE</span><span><kbd>M</kbd> SOUND</span></div><span class="footer-note">No downloads. Just open skies. <span aria-hidden="true">✦</span></span></footer>
+      <p class="mobile-tip">Tap a bird to fire · Tap RELOAD for a fresh magazine</p>
+      <p class="movement-tip">Hold <kbd>A</kbd> to move the gun left or <kbd>D</kbd> to move right. Keep aiming with the mouse; release the key to stop.</p>
+      <details class="field-guide"><summary>THE FIELD GUIDE <span>How to play & scoring</span></summary><div><p>Aim at the birds and click or tap to fire. Your rifle follows your aim, with a short tracer and visible recoil on every shot. Each magazine holds six shots; press <kbd>R</kbd> or tap Reload for a fresh one. Empty magazines reload automatically.</p><p>Teal birds are worth <b>100</b>, coral birds <b>150</b>, and small golden birds <b>250</b>. Build a hit streak for up to <b>5×</b> points. Miss a shot or let a bird escape and your streak resets. Birds get faster and more frequent every 15 seconds.</p><p>Rounds last 90 seconds of active play. <kbd>P</kbd> / <kbd>Esc</kbd> pauses, <kbd>M</kbd> toggles sound. Switching tabs pauses automatically. Keyboard players: focus the game, use arrow keys to aim, and <kbd>Space</kbd> to fire. Stylized targets, no gore, no tracking, and no network required.</p></div></details>
+    </main>
+  </div>
+</body>
+</html>
